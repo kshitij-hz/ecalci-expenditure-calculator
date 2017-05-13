@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Expenditure Calculator App</title>
+ 
+    
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/">Home</a></li>
+            <li role="presentation" class="active"><a href="login">Log In</a></li>
+            <li role="presentation"><a href="signup">Sign Up</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Expenditure Calculator App</h3>
+      </div>
+      <br>
+      <div class="jumbotron">
+        <h2 align="center">Login</h2>
+        <form class="form-signin" action="login" method="POST">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <br>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <br> 
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+      </form>
+      {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul style="list-style-type:none;">
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    
+      </div>
+ 
+       
+ 
+      <footer class="footer">
+            <p>&copy; Exp 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Expenditure Calculator App</title>
+ 
+    
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <style type="text/css">
+    .btn-default{
+      margin-left:5px;
+    }
+    </style>
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="#">Welcome, {{ name }}</a></li>
+            <li role="presentation" class="active"><a href="/logout">Logout</a></li>
+          </ul>
+        </nav>
+        <a href="/" class=""><h3 class="text-muted main">Expenditure Calculator App</h3></a>
+      </div>
+      <div class="">
+      <h2>
+        <a href="/group/{{ group.get('_id') }}"><span class="pull-left" style="color:#000 !important; ">Group : {{ group.get('group') }}</span>
+      </h2>
+      <br>
+      <br>
+      <br>
+
+      <table class="table table-striped table-bordered table-hover">
+        <tr><th>Member</th><th>Expenditure</th><th>Paid</th><th>Total</th></tr>
+        {% for member in members %}
+        <tr id="">
+          <td>{{ member.get('member') }}</td>
+          <td>{{ data.get('te'+member.get('_id')|string) }}</td>
+          <td>{{ data.get('tp'+member.get('_id')|string) }}</td>
+          <td>{{ data2.get(member.get('_id')|string) }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br><br>
+
+      <table class="table table-striped table-bordered table-hover">
+        {% for log in logs %}
+        <tr id="">
+          <td>{{ log }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      
+
+
+      {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul style="list-style-type:none;">
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    
+      </div>
+ 
+       
+ 
+      <footer class="footer">
+        <p>&copy; Exp 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>

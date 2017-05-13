@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Expenditure Calculator App</title>
+ 
+    
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <style type="text/css">
+    .btn-default{
+      margin-left:5px;
+    }
+    </style>
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="#">Welcome, {{ name }}</a></li>
+            <li role="presentation" class="active"><a href="/logout">Logout</a></li>
+          </ul>
+        </nav>
+        <a href="/" class=""><h3 class="text-muted main">Expenditure Calculator App</h3></a>
+      </div>
+      <div class="">
+      <h2>
+        <span class="pull-left">Group : {{ group.get('group') }}</span>
+        <form class="" action="/newMember" method="POST">
+          <input type="hidden" name="group" value="{{ group.get('_id') }}">
+          <button style="float:right;display:inline;" class="btn btn-primary" type="submit">Add</button>
+          <input style="float:right;display:inline;width:40%;" type="text" name="member" class="form-control" placeholder="New member" required autofocus>
+        </form>
+      </h2>
+      <br>
+      <br>
+      <br>
+      <br>
+      <form method="POST" action="/expenditure" id="exp" onsubmit="return formValidate();">
+        <input type="hidden" name="group" value="{{ group.get('_id') }}">
+      
+        <button type="button" class="btn btn-default pull-right paid">Paid Equally</button>
+        <button type="button" class="btn btn-default pull-right expend">Expend Equally</button>
+        <input style="float:right;display:inline;width:15%;margin-left:5px;" type="number" name="amount" class="form-control amount"placeholder="Amount" required autofocus>
+        <input style="float:right;display:inline;width:50%;" type="text" name="title" class="form-control title"placeholder="Title" required autofocus>
+        <br><br>     
+        <table class="table table-striped table-bordered table-hover">
+          <tr><th>Member</th><th>Expenditure</th><th>Paid</th></tr>
+          {% for member in members %}
+          <tr id="">
+            <td>{{ member.get('member') }}</td>
+            <td><input type="number" name="e{{ member.get('_id') }}" value="0" class="add-expend"> </td>
+            <td><input type="number" name="p{{ member.get('_id') }}" value="0" class="add-paid"> </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <button type="submit" class="btn btn-primary btn-block add-submit">ADD</button>
+      </form>
+
+      <br><br>
+      <h2 align="center">Expenditures <a href="/calculate/{{ group.get('_id') }}"><span class="btn btn-success pull-right ">Calculate</span></a></h2>
+      {% for expenditure in expenditures %}
+        <h3>{{ expenditure.get('title') }}({{ expenditure.get('amount') }}) <a href="/eDelete/{{ expenditure.get('group') }}/{{ expenditure.get('_id') }}"><span class="btn btn-danger pull-right">Delete</span></a></h3>
+        <table class="table table-striped table-bordered table-hover">
+          <tr><th>Member</th><th>Expenditure</th><th>Paid</th></tr>
+          {% for member in members %}
+          <tr id="">
+            <td>{{ member.get('member') }}</td>
+            <td>{{ expenditure.get('e'+member.get('_id')|string,0) }}</td>
+            <td>{{ expenditure.get('p'+member.get('_id')|string,0) }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        <br><br><br>
+      {% endfor %}
+      
+
+      {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul style="list-style-type:none;">
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+      {% endwith %}
+    
+      </div>
+ 
+       
+ 
+      <footer class="footer">
+        <p>&copy; Exp 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+<script type="text/javascript" src="../static/js/jquery.js"></script>
+<script type="text/javascript">
+  function formValidate(){
+    var amount = $(".amount").val();
+    var title = $(".title").val();
+    if(!amount || !title)
+        return false;  
+    return true;
+  }
+
+  $(".paid").click(function(){
+    var amount = $(".amount").val();
+
+    if(!amount){
+      $(".add-submit").click();
+    }
+    else{
+      var n = $('.add-paid').length;
+      $(".add-paid").val(amount/n);
+    }
+
+
+  });
+
+  $(".expend").click(function(){
+    var amount = $(".amount").val();
+    if(!amount){
+      $(".add-submit").click();
+    }
+    else{
+      var n = $('.add-expend').length;
+      $(".add-expend").val(amount/n);
+    }
+  });
+</script>
+
+</html>
+
